@@ -1,25 +1,15 @@
 from aiogram import Bot, Dispatcher
 from config import TOKEN
-from handlers import router
-from aiogram.types import Message
-from aiogram.filters import Command
+from handlers.handlers_start import router
+from handlers.logging_handlers import router2
 import asyncio
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 dp.include_router(router)
+dp.include_router(router2)
 
-# Обработчик команды /start
-@dp.message(Command("start"))
-async def cmd_start(message: Message):
-    await message.reply("Добро пожаловать! Я ваш бот.")
-
-# Обработчик команды /help
-@dp.message(Command("help"))
-async def cmd_help(message: Message):
-    await message.reply("Я могу ответить на команды /start и /help.")
-
-# Основная функция запуска бота
 async def main():
     print("Бот запущен!")
     await dp.start_polling(bot)
